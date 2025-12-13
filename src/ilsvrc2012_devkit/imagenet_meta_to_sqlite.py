@@ -1,4 +1,9 @@
 """
+imagenet_meta_to_sqlite.py
+--------------------------
+
+https://chatgpt.com/c/693d8bb7-2dc4-8327-a674-62e1ebbc5da2
+
 Import ImageNet ILSVRC2012 meta.mat into SQLite.
 
 Expected layout:
