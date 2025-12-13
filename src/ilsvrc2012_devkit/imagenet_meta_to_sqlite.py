@@ -152,6 +152,10 @@ def create_schema(conn: sqlite3.Connection) -> None:
         CREATE TABLE synsets (
             synset_id           INTEGER PRIMARY KEY,
             wnid                TEXT NOT NULL UNIQUE,
+            -- Generated Open Multilingual WordNet ID
+            omwid               TEXT GENERATED ALWAYS AS (
+                                   'omw-en-' || SUBSTR(wnid, 2) || '-n'
+                                 ) VIRTUAL,
             headword            TEXT,
             words               TEXT,
             gloss               TEXT,
