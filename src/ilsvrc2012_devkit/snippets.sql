@@ -25,21 +25,13 @@ WITH
         SELECT
             synset_rowid,
             omwid,
+            substr(synset_metadata ->> '$.identifier', 1, length(synset_metadata ->> '$.identifier') - 5) AS headword,
             json_group_array(form ORDER BY synset_rank) AS words,
             synset_metadata
-        FROM synsets_forms
+        FROM synsets_forms    
         GROUP BY synset_rowid
-    ),
-    synsets_headwords AS (
-        SELECT
-            synset_rowid,
-            omwid,
-			replace(words ->> 0, ' ', '_') AS headword,
-            words,
-            synset_metadata
-        FROM synsets_ex
     )
-SELECT * FROM synsets_headwords
+SELECT * FROM synsets_ex
 WHERE synset_metadata like '%imagenet%';
 
 
