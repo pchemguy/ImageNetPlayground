@@ -5,7 +5,7 @@ FROM synsets, definitions
 WHERE synsets.rowid = definitions.synset_rowid;
 
 
--- SELECT words
+-- SELECT words and headword (sense synset_rank=0)
 
 WITH
     synsets_forms AS (
@@ -27,8 +27,35 @@ WITH
             omwid,
             json_group_array(form ORDER BY synset_rank) AS words,
             synset_metadata
-        FROM synsets_forms    
+        FROM synsets_forms
         GROUP BY synset_rowid
+    ),
+    synsets_headwords AS (
+        SELECT
+            synset_rowid,
+            omwid,
+			replace(words ->> 0, ' ', '_') AS headword,
+            words,
+            synset_metadata
+        FROM synsets_ex
     )
-SELECT * FROM synsets_ex
+SELECT * FROM synsets_headwords
 WHERE synset_metadata like '%imagenet%';
+
+
+-- Synset Types
+
+SELECT rt.rowid AS relation_id, rt.type, sr.type_rowid AS synset_type_rowid, count(*) AS freq
+FROM relation_types AS rt
+LEFT JOIN synset_relations AS sr
+ON rt.rowid = sr.type_rowid
+GROUP BY rt.rowid;
+
+
+-- Sense Types
+
+SELECT rt.rowid AS relation_id, rt.type, sr.type_rowid AS sense_type_rowid
+FROM relation_types AS rt
+LEFT JOIN sense_relations AS sr
+ON rt.rowid = sr.type_rowid
+GROUP BY rt.rowid;
