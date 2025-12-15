@@ -290,13 +290,38 @@ SELECT * FROM synsets_ex
 		ORDER BY s.rowid, s.path_sid, jn.key
 	),
 
-	shortcut_mask AS (
-		SELECT sn.rowid, max(dn.rowid IS NULL) AS mask
-		FROM shortcut_nodes AS sn
-		LEFT JOIN dominant_nodes AS dn
-		ON  sn.ends = dn.ends
-		AND sn.node = dn.node
-		GROUP BY sn.rowid
+	shortcut_dominated AS (
+		SELECT DISTINCT
+			sc.rowid AS shortcut_id,
+			d.rowid  AS dominant_id
+		FROM shortcut_candidate sc
+		JOIN dominant_candidate d
+		  ON sc.ends = d.ends
+		 AND d.depth &gt;= sc.depth
+		WHERE NOT EXISTS (
+			SELECT 1
+			FROM json_each(sc.path_rid) sn
+			WHERE NOT EXISTS (
+				SELECT 1
+				FROM json_each(d.path_rid) dn
+				WHERE dn.value = sn.value
+			)
+		)
+	),
+
+	shortcut_node_counts AS (
+		SELECT
+			rowid AS shortcut_id,
+			json_array_length(path_rid) AS node_count
+		FROM shortcut_candidate
+	),
+
+	true_shortcuts AS (
+		SELECT sc.shortcut_id
+		FROM shortcut_dominated sc
+		JOIN shortcut_node_counts snc
+		  ON sc.shortcut_id = snc.shortcut_id
+		WHERE sc.matched_nodes = snc.node_count
 	),
 	
 	paths_no_shortcuts AS (
@@ -339,8 +364,8 @@ SELECT * FROM synsets_ex
 	)
 	
 SELECT *
-FROM forest 
-ORDER BY start_sid
+FROM dominant_candidate 
+--ORDER BY start_sid
 ;
 </sql><sql name="SQL 9">WITH 
     synsets_ex AS (
