@@ -1,6 +1,7 @@
 -- domain_topic
 
 WITH 
+WITH 
     relation_sources AS (
         SELECT DISTINCT synset_relations.source_rowid
         FROM synset_relations, relation_types
@@ -16,9 +17,9 @@ WITH
         ORDER BY synset_relations.target_rowid
     ),
     root_nodes AS (
-        SELECT rt.target_rowid, s.sid
+        SELECT rt.target_rowid AS rid, s.sid
         FROM relation_targets AS rt, synsets AS s
-        ON rt.target_rowid = s.rowid
+        ON  rt.target_rowid = s.rowid AND s.pos = 'n'
         LEFT JOIN relation_sources AS rs
         ON rt.target_rowid = rs.source_rowid
         WHERE rs.source_rowid IS NULL
@@ -44,9 +45,9 @@ WITH
         ORDER BY synset_relations.target_rowid
     ),
     root_nodes AS (
-        SELECT rt.target_rowid, s.sid
+        SELECT rt.target_rowid AS rid, s.sid
         FROM relation_targets AS rt, synsets AS s
-        ON rt.target_rowid = s.rowid
+        ON  rt.target_rowid = s.rowid AND s.pos = 'n'
         LEFT JOIN relation_sources AS rs
         ON rt.target_rowid = rs.source_rowid
         WHERE rs.source_rowid IS NULL
@@ -72,9 +73,9 @@ WITH
         ORDER BY synset_relations.target_rowid
     ),
     root_nodes AS (
-        SELECT rt.target_rowid, s.sid
+        SELECT rt.target_rowid AS rid, s.sid
         FROM relation_targets AS rt, synsets AS s
-        ON rt.target_rowid = s.rowid
+        ON  rt.target_rowid = s.rowid AND s.pos = 'n'
         LEFT JOIN relation_sources AS rs
         ON rt.target_rowid = rs.source_rowid
         WHERE rs.source_rowid IS NULL
@@ -100,9 +101,9 @@ WITH
         ORDER BY synset_relations.target_rowid
     ),
     root_nodes AS (
-        SELECT rt.target_rowid, s.sid
+        SELECT rt.target_rowid AS rid, s.sid
         FROM relation_targets AS rt, synsets AS s
-        ON rt.target_rowid = s.rowid
+        ON  rt.target_rowid = s.rowid AND s.pos = 'n'
         LEFT JOIN relation_sources AS rs
         ON rt.target_rowid = rs.source_rowid
         WHERE rs.source_rowid IS NULL
@@ -128,9 +129,9 @@ WITH
         ORDER BY synset_relations.target_rowid
     ),
     root_nodes AS (
-        SELECT rt.target_rowid, s.sid
+        SELECT rt.target_rowid AS rid, s.sid
         FROM relation_targets AS rt, synsets AS s
-        ON rt.target_rowid = s.rowid
+        ON  rt.target_rowid = s.rowid AND s.pos = 'n'
         LEFT JOIN relation_sources AS rs
         ON rt.target_rowid = rs.source_rowid
         WHERE rs.source_rowid IS NULL
@@ -156,9 +157,9 @@ WITH
         ORDER BY synset_relations.target_rowid
     ),
     root_nodes AS (
-        SELECT rt.target_rowid, s.sid
+        SELECT rt.target_rowid AS rid, s.sid
         FROM relation_targets AS rt, synsets AS s
-        ON rt.target_rowid = s.rowid
+        ON  rt.target_rowid = s.rowid AND s.pos = 'n'
         LEFT JOIN relation_sources AS rs
         ON rt.target_rowid = rs.source_rowid
         WHERE rs.source_rowid IS NULL
