@@ -1,7 +1,6 @@
 -- domain_topic
 
 WITH 
-WITH 
     relation_sources AS (
         SELECT DISTINCT synset_relations.source_rowid
         FROM synset_relations, relation_types
@@ -23,6 +22,14 @@ WITH
         LEFT JOIN relation_sources AS rs
         ON rt.target_rowid = rs.source_rowid
         WHERE rs.source_rowid IS NULL
+    ),
+    leaf_nodes AS (
+        SELECT rs.source_rowid AS rid, s.sid
+        FROM relation_sources AS rs, synsets AS s
+        ON  rs.source_rowid = s.rowid AND s.pos = 'n'
+        LEFT JOIN relation_targets AS rt
+        ON rt.target_rowid = rs.source_rowid
+        WHERE rt.target_rowid IS NULL
     )
 SELECT * FROM root_nodes;
 
