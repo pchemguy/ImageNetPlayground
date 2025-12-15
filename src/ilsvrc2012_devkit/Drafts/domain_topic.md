@@ -7,7 +7,7 @@ This SQLite SQL draft traces [subject domain](../WORDNET_RELATIONS.md) multipare
 > The original `wn.synsets` table has been enriched:  
 >     Attribute `imagenet` has been added to the `metadata` JSON field, indicating synset index in the `ILSVRC2012_devkit_t12.tar.gz/data/meta.mat` metadata.
 
-Conceptually
+Present implementation starts with `leaf` nodes and walks the hierarchy up towards roots. This approach is somewhat simpler mentally when considering single parent hierarchies, but functionally it does not matter at all, which sides are considered as beginning/end, and I should probably switch to conventional design with paths starting with root nodes (leftmost nodes in JSON array) and walking towards leaf nodes at the other end.
 
 | CTE             | Explanation                                                                              |
 | --------------- | ---------------------------------------------------------------------------------------- |
