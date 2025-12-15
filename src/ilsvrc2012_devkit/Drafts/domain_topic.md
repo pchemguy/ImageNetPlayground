@@ -74,6 +74,12 @@ Adds missing `root` nodes by enumerating constructed paths and taking terminal n
 
 ## Alternative Approach
 
+> [!NOTE]
+> 
+> See ../hierarchy.sql
+> 
+> Consider creating `edges` CTE first with source/target rid/sid first OR actually creating a TEMP table with proper indexes OR a view (must use parent indexes).
+
 1. Select the set of multipath candidates, labeling each row with (required criteria: for each `ends` value at least two rows must exist having different `path_length`)
 
 ```sql
