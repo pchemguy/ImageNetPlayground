@@ -45,8 +45,10 @@ Labels subset of paths involving multipaths.
 > - identical ends AND
 > - different length
 >
-> The longer path is a dominant candidate, the shorter path is shortcut candidate. Strictly speaking, within a set of multiple paths having the same ends, any path of length 2 can be immediately labeled as a shortcut (no further checks are necessary) and any path of length of at least 3 needs to be checked against every paths of at least one node longer as a potential shortcut.
->
+> The longer path is a dominant candidate, the shorter path is shortcut candidate.
+
+Strictly speaking, within a set of multiple paths having the same ends, any path of length 2 can be immediately labeled as a shortcut (no further checks are necessary) and any path of length of at least 3 needs to be checked against every paths of at least one node longer as a potential shortcut.
+
 
 | CTE               | Explanation                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
