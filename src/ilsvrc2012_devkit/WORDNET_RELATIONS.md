@@ -46,7 +46,7 @@ Of particular interest are hierarchical relations:
 | 21    | mero_part         |
 | 22    | mero_substance    |
 
-Note, that for each relation type, WordNet actually defines two terms, describing the same relation from the parent and child side perspective (and including corresponding essentially duplicated records in associated M2M tables, particularly, `synset_relations` and `sense_relations`, need to verify which one is which parent/child):
+Note, that for each relation type, WordNet actually defines two complementary terms, describing the same relation from the parent and child perspectives (and including corresponding essentially duplicated records in associated M2M tables, particularly, `synset_relations` and `sense_relations`, need to verify which one is which parent/child):
 
 | Kind                   | rowid | side1          | rowid | side2             | Single-Parent Design |
 | ---------------------- | ----- | -------------- | ----- | ----------------- | -------------------- |
@@ -62,3 +62,8 @@ Note, that for each relation type, WordNet actually defines two terms, describin
 - Other hierarchies should be treated as multiparent graphs.
 
 Note, at least `Subject Domain` include "loops" (multiple paths with the same leaf/root nodes but different inner nodes). "Loops" may potentially involve strictly distinct paths (both containing nodes not present in the other one) and shortcut paths (where the "shorted" path includes edges shorting some of the inner nodes in the full paths). While more complicated constructs are possible in theories, such as both paths containing edges shorting some of the inner nodes of the other paths, it is not clear yet whether such cases exist in `WN` hierarchies.
+
+Note, when extracting specific hierarchies from the `xxx_relations` tables. For all inner nodes, these tables should contain at least one record for each of the two types `side1/side2`, and all such nodes can be selected via edges from the `xxx_relations` tables of either complementary relation type. The two sets created via either `side1/side2` **for inner nodes** should be "mirror" images with `source_rowid` and `target_rowid` columns swapped, reflecting the two `parent/child` perspectives.
+
+At the same time, `leaf/root` nodes only participate in one of the two complementary relations, either labeled as `side1` or `side2`. In practice, the two resulting edge subsets selected via `side1/side2` will include either `leaf` or `root` edges (one will include one, the other - other). So, between the `source_rowid` and `target_rowid` fields in the two selected subsets, one will reference (in addition two inner nodes) either `leaf` or `root` nodes. There are multiple ways to extract all nodes participating in the full hierarchy. For example,  select edges using one of the two complementary relations, then select appropriate terminal edges (`leaf` or `root` type depending on the primary relation used). Alternatively, because path enumeration loop begins with either `leaf` or `root` nodes and walks the hierarchy terminating in the counterpart, the missing nodes may be selected by taking the terminal nodes from the enumerated paths set.
+
