@@ -6,7 +6,7 @@ ADD COLUMN &quot;sid&quot; TEXT COLLATE NOCASE
 GENERATED ALWAYS AS (metadata -&gt;&gt; '$.identifier') VIRTUAL;
 
 CREATE UNIQUE INDEX &quot;synset_sid_index&quot; ON &quot;synsets&quot; (&quot;sid&quot;);
-</sql><sql name="walk*">WITH RECURSIVE
+</sql><sql name="walk">WITH RECURSIVE
     relation_sources AS (
         SELECT DISTINCT e.source_rowid AS rid, e.source_synid AS sid
         FROM temp.edges AS e
@@ -144,7 +144,7 @@ CREATE UNIQUE INDEX &quot;synset_sid_index&quot; ON &quot;synsets&quot; (&quot;s
 		)
 	)
 	
-SELECT * FROM multipath_index --filtered_paths </sql><sql name="topic_edges">PRAGMA temp_store = MEMORY;
+SELECT * FROM filtered_paths</sql><sql name="topic_edges">PRAGMA temp_store = MEMORY;
 
 DROP TABLE IF EXISTS &quot;temp&quot;.&quot;edges&quot;;
 
@@ -237,4 +237,35 @@ WHERE rt.type = 'hypernym'
   AND sr.source_rowid = ss.rowid AND ss.pos = 'n'
   AND sr.target_rowid = st.rowid AND st.pos = 'n';
 
-SELECT * FROM &quot;temp&quot;.&quot;edges&quot;</sql><current_tab id="1"/></tab_sql></sqlb_project>
+SELECT * FROM &quot;temp&quot;.&quot;edges&quot;</sql><sql name="edges*">PRAGMA temp_store = MEMORY;
+
+DROP TABLE IF EXISTS &quot;temp&quot;.&quot;edges&quot;;
+
+CREATE TEMP TABLE &quot;edges&quot; (
+    &quot;rowid&quot;         INTEGER PRIMARY KEY,
+    &quot;source_rowid&quot;  INTEGER NOT NULL,
+    &quot;source_synid&quot;  TEXT NOT NULL COLLATE NOCASE,
+    &quot;target_rowid&quot;  INTEGER NOT NULL,
+    &quot;target_synid&quot;  TEXT NOT NULL COLLATE NOCASE,
+    UNIQUE(&quot;source_rowid&quot;, &quot;target_rowid&quot;),
+    UNIQUE(&quot;target_rowid&quot;, &quot;source_rowid&quot;)
+);
+
+INSERT INTO &quot;edges&quot;(&quot;rowid&quot;, &quot;source_rowid&quot;, &quot;source_synid&quot;, &quot;target_rowid&quot;, &quot;target_synid&quot;)
+SELECT
+    sr.rowid,
+    sr.source_rowid,
+    ss.sid AS source_synid,
+    sr.target_rowid,
+    st.sid AS target_synid
+FROM
+    synset_relations AS sr,
+    synsets AS ss,
+    synsets AS st,
+    relation_types AS rt
+WHERE rt.type = 'holo_part'
+  AND sr.type_rowid = rt.rowid
+  AND sr.source_rowid = ss.rowid AND ss.pos = 'n'
+  AND sr.target_rowid = st.rowid AND st.pos = 'n';
+
+SELECT * FROM &quot;temp&quot;.&quot;edges&quot;</sql><current_tab id="5"/></tab_sql></sqlb_project>
