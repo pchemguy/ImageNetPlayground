@@ -99,8 +99,8 @@ WITH RECURSIVE
                     ORDER BY pp.root_sid, pp.leaf_sid, depth DESC, path_sid
                 )) AS path_id,
             pp.*
-        FROM preflitered_paths AS pp, multipath_index AS mi
-        WHERE (pp.root_rid, pp.leaf_rid) = (mi.root_rid, mi.leaf_rid)
+        FROM preflitered_paths AS pp
+        WHERE (pp.root_rid, pp.leaf_rid) IN (SELECT mi.root_rid, mi.leaf_rid FROM multipath_index AS mi)
     ),
     -- TODO:
     --   Every path of length 2 should be flagged for pruning without further testing -
