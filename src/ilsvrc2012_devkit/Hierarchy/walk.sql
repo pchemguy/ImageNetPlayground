@@ -27,7 +27,7 @@ WITH RECURSIVE
     ),
 
     paths_LOOP AS (
-        -- seed: every synset that participates in domain_topic
+        -- seed: every synset that participates in the hierarchy defined by edges.
         SELECT DISTINCT
             rn.rid AS root_rid,
             rn.sid AS root_sid,
@@ -64,7 +64,7 @@ WITH RECURSIVE
         AND p.depth < 64
     ),
 
-    -- Discard all intermediate paths, having non-leaf last node .
+    -- Discard all intermediate paths, having non-leaf last node.
     preflitered_paths AS (
         SELECT
             p.root_rid,

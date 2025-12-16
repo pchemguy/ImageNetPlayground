@@ -1,408 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="wn.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="2" wal_autocheckpoint="1000" synchronous="1"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="2818"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/><expanded_item id="4" parent="1"/></tab_structure><tab_browse><table title="relation_types" custom_title="0" dock_id="4" table="4,14:mainrelation_types"/><table title="synsets" custom_title="0" dock_id="1" table="4,7:mainsynsets"/><table title="synset_relations" custom_title="0" dock_id="5" table="4,16:mainsynset_relations"/><dock_state state="000000ff00000000fd0000000100000002000005bb0000039dfc0100000001fc00000000000005bb0000014300fffffffa000000020100000003fb000000160064006f0063006b00420072006f00770073006500310100000000ffffffff0000012300fffffffb000000160064006f0063006b00420072006f00770073006500340100000000ffffffff0000012300fffffffb000000160064006f0063006b00420072006f00770073006500350100000000ffffffff0000014300ffffff000005bb0000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="adjpositions" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="81"/><column index="2" value="71"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="counts" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="39"/><column index="2" value="88"/><column index="3" value="81"/><column index="4" value="40"/><column index="5" value="64"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="definitions" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="39"/><column index="2" value="88"/><column index="3" value="86"/><column index="4" value="300"/><column index="5" value="60"/><column index="6" value="81"/><column index="7" value="64"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="entries" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="39"/><column index="2" value="300"/><column index="3" value="88"/><column index="4" value="35"/><column index="5" value="64"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="forms" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="73"/><column index="2" value="39"/><column index="3" value="88"/><column index="4" value="79"/><column index="5" value="300"/><column index="6" value="300"/><column index="7" value="40"/><column index="8" value="35"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="ili_statuses" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="39"/><column index="2" value="95"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="ilis" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="39"/><column index="2" value="55"/><column index="3" value="84"/><column index="4" value="61"/><column index="5" value="64"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="lexfiles" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="39"/><column index="2" value="151"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="lexicons" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="39"/><column index="2" value="55"/><column index="3" value="300"/><column index="4" value="60"/><column index="5" value="111"/><column index="6" value="300"/><column index="7" value="50"/><column index="8" value="39"/><column index="9" value="300"/><column index="10" value="39"/><column index="11" value="64"/><column index="12" value="57"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="relation_types" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort><column index="0" mode="0"/></sort><column_widths><column index="1" value="39"/><column index="2" value="143"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="sense_examples" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="39"/><column index="2" value="88"/><column index="3" value="81"/><column index="4" value="57"/><column index="5" value="60"/><column index="6" value="64"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="sense_relations" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="39"/><column index="2" value="88"/><column index="3" value="86"/><column index="4" value="84"/><column index="5" value="74"/><column index="6" value="64"/></column_widths><filter_values><column index="4" value="=7"/></filter_values><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="senses" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort><column index="6" mode="0"/></sort><column_widths><column index="1" value="39"/><column index="2" value="300"/><column index="3" value="88"/><column index="4" value="79"/><column index="5" value="72"/><column index="6" value="86"/><column index="7" value="79"/><column index="8" value="67"/><column index="9" value="300"/></column_widths><filter_values><column index="5" value="113975"/></filter_values><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="synset_examples" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="39"/><column index="2" value="88"/><column index="3" value="86"/><column index="4" value="300"/><column index="5" value="60"/><column index="6" value="64"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="synset_relations" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="39"/><column index="2" value="88"/><column index="3" value="86"/><column index="4" value="84"/><column index="5" value="74"/><column index="6" value="64"/></column_widths><filter_values><column index="4" value="=11"/></filter_values><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="synsets" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="39"/><column index="2" value="143"/><column index="3" value="86"/><column index="4" value="55"/><column index="5" value="35"/><column index="6" value="67"/><column index="7" value="80"/><column index="8" value="300"/></column_widths><filter_values><column index="7" value="/biology/"/></filter_values><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="syntactic_behaviour_senses" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="164"/><column index="2" value="81"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="syntactic_behaviours" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="39"/><column index="2" value="71"/><column index="3" value="88"/><column index="4" value="300"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="tags" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="75"/><column index="2" value="35"/><column index="3" value="59"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1">SELECT rt.rowid AS relation_id, rt.type, sr.type_rowid AS synset_type_rowid, count(*) AS freq
-FROM relation_types AS rt
-LEFT JOIN synset_relations AS sr
-ON rt.rowid = sr.type_rowid
-GROUP BY rt.rowid;
-</sql><sql name="SQL 2">WITH
-    synsets_forms AS (
-        SELECT
-            senses.entry_rowid, 
-            senses.synset_rowid,
-            senses.synset_rank,
-            forms.rowid AS form_rowid,
-            forms.form,
-            synsets.id AS omwid,
-            synsets.metadata AS synset_metadata
-        FROM senses, forms, synsets
-        WHERE senses.entry_rowid = forms.entry_rowid
-          AND senses.synset_rowid = synsets.rowid
-    ),
-    synsets_ex AS (
-        SELECT
-            synset_rowid,
-            omwid,
-            substr(synset_metadata -&gt;&gt; '$.identifier', 1, length(synset_metadata -&gt;&gt; '$.identifier') - 5) AS headword,
-            json_group_array(form ORDER BY synset_rank) AS words,
-            synset_metadata
-        FROM synsets_forms    
-        GROUP BY synset_rowid
-    )
-SELECT * FROM synsets_ex
-</sql><sql name="SQL 3">WITH
-    synsets_ex AS (
-        SELECT
-			rowid AS rid,
-            id AS omwid,
-			metadata -&gt;&gt; '$.identifier' AS sid,
-            metadata -&gt;&gt; '$.imagenet' AS imagenet_id
-        FROM synsets
-		WHERE pos = 'n'
-    ),
-	related AS (
-		SELECT src.rid AS src_rid, src.omwid, src.sid, dst.rid AS rel_rid, dst.sid AS rel_sid
-		FROM synsets_ex AS src, synsets_ex AS dst, synset_relations AS sr, relation_types AS rt
-		WHERE rt.type = 'has_domain_topic'
-		  AND rt.rowid = sr.type_rowid
-		  AND sr.source_rowid = src.rid
-		  AND sr.target_rowid = dst.rid		  
-	),
-	rec_init AS (
-		SELECT
-		    json_array(src.rid) AS branch_rid,
-			json_array(src.sid) AS branch_sid
-		FROM synsets_ex AS src, synsets_ex AS dst, synset_relations AS sr, relation_types AS rt
-		WHERE rt.type = 'domain_topic'
-		  AND rt.rowid = sr.type_rowid
-		  AND sr.source_rowid = src.rid
-		  AND sr.target_rowid = dst.rid		  
-	),
-	related_L2 AS (
-		SELECT src.rel_rid, src.rel_sid, dst.rid AS rel_l2_rid, dst.sid AS rel_l2_sid
-		FROM related AS src, synsets_ex AS dst, synset_relations AS sr, relation_types AS rt
-		WHERE rt.type = 'has_domain_topic'
-		  AND rt.rowid = sr.type_rowid
-		  AND sr.source_rowid = src.rel_rid
-		  AND sr.target_rowid = dst.rid		  
-	)
-SELECT * FROM rec_init
-</sql><sql name="SQL 5">WITH RECURSIVE
-    json_ops AS (
-        SELECT json_op
-        FROM hierarchy_ops
-        WHERE op_name = 'mv_tree'
-        ORDER BY id DESC
-        LIMIT 1
-    ),
-    base_ops AS (
-        SELECT
-            &quot;key&quot; + 1 AS opid,
-            '/' || trim(json_extract(value, '$.path_old'), '/') AS rootpath_old,
-            '/' || trim(json_extract(value, '$.path_new'), '/') AS rootpath_new
-        FROM json_ops AS jo, json_each(jo.json_op) AS terms
-    ),
-    /********************************************************************/
-    --------------------------- SUBTREES LIST ----------------------------
-    subtrees_old AS (
-        SELECT opid, ascii_id, path AS path_old
-        FROM base_ops, categories
-        WHERE path_old || '/' LIKE rootpath_old || '/%'
-        ORDER BY opid, path_old
-    ),
-    /********************************************************************/
-    ----------------------------- MOVE LOOP ------------------------------
-    LOOP_MOVE AS (
-            SELECT 0 AS opid, ascii_id, path_old AS path_moved
-            FROM subtrees_old
-        UNION ALL
-            SELECT ops.opid, lp.ascii_id,
-                   iif(lp.path_moved || '/' NOT LIKE ops.rootpath_old || '/%', lp.path_moved,
-                       ops.rootpath_new || substr(lp.path_moved, length(ops.rootpath_old) + 1)
-                   ) AS path_moved
-            FROM LOOP_MOVE AS lp, base_ops AS ops
-            WHERE ops.opid = lp.opid + 1
-    ),
-    /********************************************************************/
-    subtrees_new_base AS (
-        SELECT ascii_id, path_moved AS path_new,
-               json_extract('[&quot;' || replace(trim(path_moved, '/'), '/', '&quot;, &quot;') || '&quot;]', '$[#-1]') AS name_new
-        FROM LOOP_MOVE
-        WHERE opid = (SELECT max(base_ops.opid) FROM base_ops)
-    ),
-    subtrees_path AS (
-        SELECT
-            (row_number() OVER (ORDER BY path_old)) AS priority,
-            trnew.ascii_id, path_old, path_new,
-            substr(path_new, 1, length(path_new) - length(name_new) - 1) AS prefix_new,
-            name_new
-        FROM subtrees_new_base AS trnew, subtrees_old AS trold
-        WHERE trnew.ascii_id = trold.ascii_id
-          AND path_old &lt;&gt; path_new
-    ),
-    new_paths AS (
-        SELECT
-            subtrees_path.*,
-            (cats.ascii_id IS NOT NULL) + (row_number() OVER (PARTITION BY path_new ORDER BY priority) - 1) AS target_exists
-        FROM subtrees_path LEFT JOIN categories AS cats ON path_new = path
-    )
-SELECT
-    ascii_id, path_old, path_new,
-    iif(prefix_new &lt;&gt; '', prefix_new, NULL) AS prefix_new,
-    name_new, target_exists
-FROM new_paths
-ORDER BY target_exists, path_old;</sql><sql name="SQL 6">WITH
-    synsets_ex AS (
-        SELECT
-			rowid AS rid,
-            id AS omwid,
-			metadata -&gt;&gt; '$.identifier' AS sid,
-            metadata -&gt;&gt; '$.imagenet' AS imagenet_id
-        FROM synsets
-		WHERE pos = 'n'
-    ),
-    LOOP AS (
-            SELECT 0 AS level, ascii_id, path_old AS path_moved
-            FROM subtrees_old
-        UNION ALL
-            SELECT ops.opid, lp.ascii_id,
-                   iif(lp.path_moved || '/' NOT LIKE ops.rootpath_old || '/%', lp.path_moved,
-                       ops.rootpath_new || substr(lp.path_moved, length(ops.rootpath_old) + 1)
-                   ) AS path_moved
-            FROM LOOP_MOVE AS lp, base_ops AS ops
-            WHERE ops.opid = lp.opid + 1
-    ),
-	related AS (
-		SELECT src.rid AS src_rid, src.omwid, src.sid, dst.rid AS rel_rid, dst.sid AS rel_sid
-		FROM synsets_ex AS src, synsets_ex AS dst, synset_relations AS sr, relation_types AS rt
-		WHERE rt.type = 'has_domain_topic'
-		  AND rt.rowid = sr.type_rowid
-		  AND sr.source_rowid = src.rid
-		  AND sr.target_rowid = dst.rid		  
-	),
-	related_L2 AS (
-		SELECT src.rel_rid, src.rel_sid, dst.rid AS rel_l2_rid, dst.sid AS rel_l2_sid
-		FROM related AS src, synsets_ex AS dst, synset_relations AS sr, relation_types AS rt
-		WHERE rt.type = 'has_domain_topic'
-		  AND rt.rowid = sr.type_rowid
-		  AND sr.source_rowid = src.rel_rid
-		  AND sr.target_rowid = dst.rid		  
-	)
-SELECT * FROM synsets_ex
-</sql><sql name="SQL 7">SELECT json_insert('[1,2,3,4]','$[1]',99)</sql><sql name="SQL 8">WITH RECURSIVE
-    synsets_ex AS (
-        SELECT
-            rowid AS rid,
-            id    AS omwid,
-            metadata -&gt;&gt; '$.identifier' AS sid
-        FROM synsets
-        WHERE pos = 'n'
-    ),
-
-    domain_edges AS (
-        -- leaf -&gt; parent edges
-        SELECT
-            sr.source_rowid AS child_rid,
-            sr.target_rowid AS parent_rid
-        FROM synset_relations AS sr,
-             relation_types AS rt
-        WHERE rt.rowid = sr.type_rowid
-		  AND rt.type = 'domain_topic'
-    ),
-
-    paths_LOOP AS (
-        -- seed: every synset that participates in domain_topic
-		SELECT DISTINCT
-			se.rid AS start_rid,
-			se.sid AS start_sid,
-			se.rid AS curr_rid,
-
-			json_array(se.sid) AS path_sid,
-			json_array(se.rid) AS path_rid,
-
-			1 AS depth
-		FROM synsets_ex AS se, domain_edges AS de
-		WHERE de.child_rid = se.rid
-
-        UNION ALL
-
-        -- recursive step: append parent
-        SELECT
-            p.start_rid,
-            p.start_sid,
-            de.parent_rid AS curr_rid,
-
-            json_insert(p.path_sid, '$[#]', pe.sid) AS path_sid,
-            json_insert(p.path_rid, '$[#]', pe.rid) AS path_rid,
-
-            p.depth + 1
-        FROM paths_LOOP AS p
-        JOIN domain_edges AS de
-          ON de.child_rid = p.curr_rid
-        JOIN synsets_ex AS pe
-          ON pe.rid = de.parent_rid
-
-        -- cycle safety
-        WHERE NOT EXISTS (
-            SELECT 1
-            FROM json_each(p.path_rid)
-            WHERE value = de.parent_rid
-        )
-
-        -- optional hard stop (safety valve)
-        AND p.depth &lt; 64
-    ),
-    
-	maximal_paths AS (
-        -- keep only paths that cannot be extended further
-        SELECT
-			(row_number() OVER (
-					ORDER BY path_sid -&gt;&gt; 0, path_sid -&gt;&gt; -1, depth DESC, path_sid
-				)) AS rowid,
-			*
-        FROM paths_LOOP AS p
-        WHERE NOT EXISTS (
-            SELECT 1
-            FROM domain_edges de
-            WHERE de.child_rid = p.curr_rid
-        )
-    ),
-	
-	multi_path_mask AS (
-		SELECT start_sid, count(*) &gt; 1 AS mask
-		FROM maximal_paths 
-		GROUP BY start_sid
-	),
-	
-	multi_paths AS (
-		SELECT
-			mp.*, 
-			json_array(path_rid -&gt;&gt; 0, path_rid -&gt;&gt; -1) AS ends
-		FROM maximal_paths AS mp, multi_path_mask AS mpm
-		WHERE mp.start_sid = mpm.start_sid AND mpm.mask = 1
-	),
-	
-	dominant_candidate AS (
-		SELECT a.*
-		FROM multi_paths AS a, multi_paths AS b
-		WHERE a.rowid &lt;&gt; b.rowid
-		  AND a.depth &gt; b.depth
-		  AND a.ends = b.ends
-		ORDER BY a.rowid
-	),
-	
-	shortcut_candidate AS (
-		SELECT a.*
-		FROM multi_paths AS a, multi_paths AS b
-		WHERE a.rowid &lt;&gt; b.rowid
-		  AND a.depth &lt; b.depth
-		  AND a.ends = b.ends
-		ORDER BY a.rowid
-	),
-
-	dominant_nodes AS (
-		SELECT d.*, jn.value AS node
-		FROM dominant_candidate AS d, json_each(d.path_rid) AS jn
-		ORDER BY d.rowid, d.path_sid, jn.key
-	),
-
-	shortcut_nodes AS (
-		SELECT s.*, jn.value AS node
-		FROM shortcut_candidate AS s, json_each(s.path_rid) AS jn
-		ORDER BY s.rowid, s.path_sid, jn.key
-	),
-
-	shortcut_dominated AS (
-		SELECT DISTINCT
-			sc.rowid AS shortcut_id,
-			d.rowid  AS dominant_id
-		FROM shortcut_candidate sc
-		JOIN dominant_candidate d
-		  ON sc.ends = d.ends
-		 AND d.depth &gt;= sc.depth
-		WHERE NOT EXISTS (
-			SELECT 1
-			FROM json_each(sc.path_rid) sn
-			WHERE NOT EXISTS (
-				SELECT 1
-				FROM json_each(d.path_rid) dn
-				WHERE dn.value = sn.value
-			)
-		)
-	),
-
-	shortcut_node_counts AS (
-		SELECT
-			rowid AS shortcut_id,
-			json_array_length(path_rid) AS node_count
-		FROM shortcut_candidate
-	),
-
-	true_shortcuts AS (
-		SELECT sc.shortcut_id
-		FROM shortcut_dominated sc
-		JOIN shortcut_node_counts snc
-		  ON sc.shortcut_id = snc.shortcut_id
-		WHERE sc.matched_nodes = snc.node_count
-	),
-	
-	paths_no_shortcuts AS (
-		SELECT mp.*
-		FROM maximal_paths AS mp
-		LEFT JOIN shortcut_mask AS sm
-		ON mp.rowid = sm.rowid
-		WHERE sm.mask IS NULL
-		   OR sm.mask &gt; 0
-	),
-	
-	root_items AS (	
-		SELECT DISTINCT
-			path_rid -&gt;&gt; -1 AS start_rid,
-			path_sid -&gt;&gt; -1 AS start_sid,
-			json_array(json_array(path_sid -&gt;&gt; -1)) AS all_path_sid,
-			json_array(json_array(path_rid -&gt;&gt; -1)) AS all_path_rid,
-			1 AS num_paths,
-			1 AS max_depth
-		FROM paths_no_shortcuts 		
-	),	
-	
-	filtered_paths AS (
-		SELECT
-			start_rid,
-			start_sid,
-			json_group_array(json(path_sid)) AS all_paths_sid,
-			json_group_array(json(path_rid)) AS all_paths_rid,
-			count(*) AS num_paths,
-			max(depth) AS max_depth
-		FROM paths_no_shortcuts			
-		GROUP BY start_rid, start_sid
-		ORDER BY num_paths DESC, start_sid
-	),
-	
-	forest AS (
-		SELECT * FROM filtered_paths 
-		UNION ALL
-		SELECT * FROM root_items 
-	)
-	
-SELECT *
-FROM maximal_paths 
---ORDER BY start_sid
-;
-</sql><sql name="SQL 9">WITH 
-    synsets_ex AS (
-        SELECT
-            rowid AS rid,
-            id    AS omwid,
-            metadata -&gt;&gt; '$.identifier' AS sid
-        FROM synsets
-        WHERE pos = 'n'
-    ),
-
-    domain_edges AS (
-        -- leaf -&gt; parent edges
-        SELECT
-            sr.source_rowid AS child_rid,
-            sr.target_rowid AS parent_rid
-        FROM synset_relations AS sr,
-             relation_types AS rt
-        WHERE rt.rowid = sr.type_rowid
-		  AND rt.type = 'domain_topic'
-    ),
-	
-	seeds AS (
-		SELECT DISTINCT
-			se.rid AS start_rid,
-			se.sid AS start_sid,
-			se.rid AS curr_rid,
-
-			json_array(se.sid) AS path_sid,
-			json_array(se.rid) AS path_rid,
-
-			1 AS depth
-		FROM synsets_ex AS se, domain_edges AS de
-		WHERE de.child_rid = se.rid
-	)
-		
-SELECT * FROM synsets_ex </sql><sql name="SQL 19">ALTER TABLE &quot;synsets&quot;
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="wn.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="2" wal_autocheckpoint="1000" synchronous="1"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="2818"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/><expanded_item id="4" parent="1"/></tab_structure><tab_browse><table title="relation_types" custom_title="0" dock_id="4" table="4,14:mainrelation_types"/><table title="synsets" custom_title="0" dock_id="1" table="4,7:mainsynsets"/><table title="synset_relations" custom_title="0" dock_id="5" table="4,16:mainsynset_relations"/><dock_state state="000000ff00000000fd0000000100000002000005bb0000039dfc0100000001fc00000000000005bb0000014300fffffffa000000020100000003fb000000160064006f0063006b00420072006f00770073006500310100000000ffffffff0000012300fffffffb000000160064006f0063006b00420072006f00770073006500340100000000ffffffff0000012300fffffffb000000160064006f0063006b00420072006f00770073006500350100000000ffffffff0000014300ffffff000005bb0000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="adjpositions" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="81"/><column index="2" value="71"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="counts" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="39"/><column index="2" value="88"/><column index="3" value="81"/><column index="4" value="40"/><column index="5" value="64"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="definitions" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="39"/><column index="2" value="88"/><column index="3" value="86"/><column index="4" value="300"/><column index="5" value="60"/><column index="6" value="81"/><column index="7" value="64"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="entries" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="39"/><column index="2" value="300"/><column index="3" value="88"/><column index="4" value="35"/><column index="5" value="64"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="forms" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="73"/><column index="2" value="39"/><column index="3" value="88"/><column index="4" value="79"/><column index="5" value="300"/><column index="6" value="300"/><column index="7" value="40"/><column index="8" value="35"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="ili_statuses" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="39"/><column index="2" value="95"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="ilis" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="39"/><column index="2" value="55"/><column index="3" value="84"/><column index="4" value="61"/><column index="5" value="64"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="lexfiles" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="39"/><column index="2" value="151"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="lexicons" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="39"/><column index="2" value="55"/><column index="3" value="300"/><column index="4" value="60"/><column index="5" value="111"/><column index="6" value="300"/><column index="7" value="50"/><column index="8" value="39"/><column index="9" value="300"/><column index="10" value="39"/><column index="11" value="64"/><column index="12" value="57"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="relation_types" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort><column index="0" mode="0"/></sort><column_widths><column index="1" value="39"/><column index="2" value="143"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="sense_examples" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="39"/><column index="2" value="88"/><column index="3" value="81"/><column index="4" value="57"/><column index="5" value="60"/><column index="6" value="64"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="sense_relations" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="39"/><column index="2" value="88"/><column index="3" value="86"/><column index="4" value="84"/><column index="5" value="74"/><column index="6" value="64"/></column_widths><filter_values><column index="4" value="=7"/></filter_values><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="senses" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort><column index="6" mode="0"/></sort><column_widths><column index="1" value="39"/><column index="2" value="300"/><column index="3" value="88"/><column index="4" value="79"/><column index="5" value="72"/><column index="6" value="86"/><column index="7" value="79"/><column index="8" value="67"/><column index="9" value="300"/></column_widths><filter_values><column index="5" value="113975"/></filter_values><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="synset_examples" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="39"/><column index="2" value="88"/><column index="3" value="86"/><column index="4" value="300"/><column index="5" value="60"/><column index="6" value="64"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="synset_relations" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="39"/><column index="2" value="88"/><column index="3" value="86"/><column index="4" value="84"/><column index="5" value="74"/><column index="6" value="64"/></column_widths><filter_values><column index="4" value="=11"/></filter_values><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="synsets" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="39"/><column index="2" value="143"/><column index="3" value="86"/><column index="4" value="55"/><column index="5" value="35"/><column index="6" value="67"/><column index="7" value="80"/><column index="8" value="300"/></column_widths><filter_values><column index="7" value="/biology/"/></filter_values><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="syntactic_behaviour_senses" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="164"/><column index="2" value="81"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="syntactic_behaviours" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="39"/><column index="2" value="71"/><column index="3" value="88"/><column index="4" value="300"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="tags" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="75"/><column index="2" value="35"/><column index="3" value="59"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 19">ALTER TABLE &quot;synsets&quot;
 DROP COLUMN &quot;sid&quot;;
 
 ALTER TABLE &quot;synsets&quot;
@@ -410,38 +6,7 @@ ADD COLUMN &quot;sid&quot; TEXT COLLATE NOCASE
 GENERATED ALWAYS AS (metadata -&gt;&gt; '$.identifier') VIRTUAL;
 
 CREATE UNIQUE INDEX &quot;synset_sid_index&quot; ON &quot;synsets&quot; (&quot;sid&quot;);
-</sql><sql name="SQL 10">WITH 
-    relation_sources AS (
-        SELECT DISTINCT synset_relations.source_rowid
-        FROM synset_relations, relation_types
-        WHERE relation_types.type = 'domain_topic'
-          AND relation_types.rowid = synset_relations.type_rowid
-        ORDER BY synset_relations.source_rowid
-    ),
-    relation_targets AS (
-        SELECT DISTINCT synset_relations.target_rowid
-        FROM synset_relations, relation_types
-        WHERE relation_types.type = 'domain_topic'
-          AND relation_types.rowid = synset_relations.type_rowid
-        ORDER BY synset_relations.target_rowid
-    ),
-    root_nodes AS (
-        SELECT rt.target_rowid AS rid, s.sid
-        FROM relation_targets AS rt, synsets AS s
-        ON  rt.target_rowid = s.rowid AND s.pos = 'n'
-        LEFT JOIN relation_sources AS rs
-        ON rt.target_rowid = rs.source_rowid
-        WHERE rs.source_rowid IS NULL
-    ),
-    leaf_nodes AS (
-        SELECT rs.source_rowid AS rid, s.sid
-        FROM relation_sources AS rs, synsets AS s
-        ON  rs.source_rowid = s.rowid AND s.pos = 'n'
-        LEFT JOIN relation_targets AS rt
-        ON rt.target_rowid = rs.source_rowid
-        WHERE rt.target_rowid IS NULL
-    )
-SELECT * FROM leaf_nodes;</sql><sql name="SQL 11*">WITH RECURSIVE
+</sql><sql name="edges_walk">WITH RECURSIVE
     relation_sources AS (
         SELECT DISTINCT e.source_rowid AS rid, e.source_synid AS sid
         FROM temp.edges AS e
@@ -562,14 +127,12 @@ SELECT * FROM leaf_nodes;</sql><sql name="SQL 11*">WITH RECURSIVE
 			-- Returns 0 if all items match (TRUE subset)
 			-- Returns 1 if any item is missing (FALSE subset)
 			MAX(dom.value IS NULL) AS keep_sub
-		FROM 
-			dominance_matrix AS dm,
+		FROM dominance_matrix AS dm,
 			json_each(dm.shortcut_path_rid) AS sub       -- 1. Unpack shortcut array
 		LEFT JOIN 
 			json_each(dm.path_rid) AS dom       -- 2. Try to find match in path array
 			ON sub.value = dom.value
-		GROUP BY 
-			dm.path_id
+		GROUP BY dm.path_id, dm.short_id
 	),
 	filtered_paths AS (
 		SELECT pp.* 
@@ -579,7 +142,7 @@ SELECT * FROM leaf_nodes;</sql><sql name="SQL 11*">WITH RECURSIVE
 		)
 	)
 	
-SELECT * FROM filtered_paths </sql><sql name="SQL 12">PRAGMA temp_store = MEMORY;
+SELECT * FROM filtered_paths </sql><sql name="edges_topic">PRAGMA temp_store = MEMORY;
 
 DROP TABLE IF EXISTS &quot;temp&quot;.&quot;edges&quot;;
 
@@ -610,4 +173,35 @@ WHERE rt.type = 'domain_topic'
   AND sr.source_rowid = ss.rowid AND ss.pos = 'n'
   AND sr.target_rowid = st.rowid AND st.pos = 'n';
 
-SELECT * FROM &quot;temp&quot;.&quot;edges&quot;</sql><current_tab id="10"/></tab_sql></sqlb_project>
+SELECT * FROM &quot;temp&quot;.&quot;edges&quot;</sql><sql name="edges_region*">PRAGMA temp_store = MEMORY;
+
+DROP TABLE IF EXISTS &quot;temp&quot;.&quot;edges&quot;;
+
+CREATE TEMP TABLE &quot;edges&quot; (
+    &quot;rowid&quot;         INTEGER PRIMARY KEY,
+    &quot;source_rowid&quot;  INTEGER NOT NULL,
+    &quot;source_synid&quot;  TEXT NOT NULL COLLATE NOCASE,
+    &quot;target_rowid&quot;  INTEGER NOT NULL,
+    &quot;target_synid&quot;  TEXT NOT NULL COLLATE NOCASE,
+    UNIQUE(&quot;source_rowid&quot;, &quot;target_rowid&quot;),
+    UNIQUE(&quot;target_rowid&quot;, &quot;source_rowid&quot;)
+);
+
+INSERT INTO &quot;edges&quot;(&quot;rowid&quot;, &quot;source_rowid&quot;, &quot;source_synid&quot;, &quot;target_rowid&quot;, &quot;target_synid&quot;)
+SELECT
+    sr.rowid,
+    sr.source_rowid,
+    ss.sid AS source_synid,
+    sr.target_rowid,
+    st.sid AS target_synid
+FROM
+    synset_relations AS sr,
+    synsets AS ss,
+    synsets AS st,
+    relation_types AS rt
+WHERE rt.type = 'domain_region'
+  AND sr.type_rowid = rt.rowid
+  AND sr.source_rowid = ss.rowid AND ss.pos = 'n'
+  AND sr.target_rowid = st.rowid AND st.pos = 'n';
+
+SELECT * FROM &quot;temp&quot;.&quot;edges&quot;</sql><current_tab id="3"/></tab_sql></sqlb_project>
