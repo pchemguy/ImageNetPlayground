@@ -92,3 +92,16 @@ Adds missing `root` nodes by enumerating constructed paths and taking terminal n
 2. In principle, any path of length 2 can be immediately labeled as `shortcut`, all such paths can be removed from the table along with any `ends` sets that would fail to meet required criteria above.
 3. Transform the remaining paths by removing first/last nodes - we only need to test the inner nodes further.
 4. Instead of exploding all paths into one joint table, it should be possible to perform pairwise join test as in `shortcut_mask` by immediate joining of `json_each` `tables` constructed in-situ from the two corresponding JSON array fields.
+
+
+
+| path_id | root_rid | root_sid      | leaf_rid | leaf_sid                   | path_sid                                                     | path_rid            | depth | short_id | shortcut      |
+|---------|----------|---------------|----------|----------------------------|--------------------------------------------------------------|---------------------|-------|----------|---------------|
+| 1       | 19       | animal.n.01   | 50838    | vector.n.03                | ["animal.n.01","microorganism.n.01","vector.n.03"]           | [19,6781,50838]     | 3     | 2        | [19,50838]    |
+| 3       | 33752    | hinduism.n.02 | 34893    | ayurveda.n.01              | ["hinduism.n.02","sanskrit.n.01","ayurveda.n.01"]            | [33752,37694,34893] | 3     | 4        | [33752,34893] |
+| 5       | 33752    | hinduism.n.02 | 34884    | vedic_literature.n.01      | ["hinduism.n.02","sanskrit.n.01","vedic_literature.n.01"]    | [33752,37694,34884] | 3     | 6        | [33752,34884] |
+| 7       | 45937    | law.n.01      | 44377    | department_of_justice.n.01 | ["law.n.01","legislation.n.01","department_of_justice.n.01"] | [45937,35265,44377] | 3     | 8        | [45937,44377] |
+| 9       | 45937    | law.n.01      | 5758     | legislation.n.02           | ["law.n.01","legislation.n.01","legislation.n.02"]           | [45937,35265,5758]  | 3     | 10       | [45937,5758]  |
+| 11      | 45937    | law.n.01      | 36277    | libel.n.01                 | ["law.n.01","tort.n.01","libel.n.01"]                        | [45937,3745,36277]  | 3     | 12       | [45937,36277] |
+| 13      | 45937    | law.n.01      | 35408    | plea_bargain.n.01          | ["law.n.01","criminal_law.n.01","plea_bargain.n.01"]         | [45937,35287,35408] | 3     | 14       | [45937,35408] |
+| 15      | 44681    | military.n.01 | 6113     | court-martial.n.02         | ["military.n.01","military_law.n.01","court-martial.n.02"]   | [44681,45947,6113]  | 3     | 16       | [44681,6113]  |
