@@ -1,10 +1,14 @@
+<!-- https://gemini.google.com/app/e545eef66f420855 -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ImageNet Hierarchy Explorer</title>
+    <!-- Bootstrap CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- D3.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
     <style>
         body { font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; overflow: hidden; height: 100vh; }
@@ -22,8 +26,19 @@
 
         /* Sidebar/Details */
         #sidebar { width: 300px; border-left: 1px solid #ddd; background: #fff; display: flex; flex-direction: column; z-index: 5; box-shadow: -2px 0 5px rgba(0,0,0,0.05); }
-        #details-pane { padding: 20px; flex: 1; overflow-y: auto; }
-        #search-results { flex: 1; overflow-y: auto; border-top: 1px solid #eee; display: none; }
+        
+        /* Updated Sidebar Layout for Search */
+        #details-pane { padding: 20px; flex: 1; overflow-y: auto; min-height: 0; }
+        #search-results-container { 
+            display: none; /* Hidden by default */
+            flex-direction: column; 
+            border-top: 1px solid #ddd; 
+            flex: 1; /* Takes 50% height when visible because details-pane is also flex:1 */
+            min-height: 0; 
+            background: #fff;
+        }
+        
+        #search-results { flex: 1; overflow-y: auto; }
         .search-item { padding: 8px 15px; cursor: pointer; border-bottom: 1px solid #f0f0f0; font-size: 0.9em; }
         .search-item:hover { background-color: #e9ecef; }
 
@@ -50,6 +65,7 @@
 </div>
 
 <div id="app-container">
+    <!-- Toolbar -->
     <div id="toolbar" class="d-flex align-items-center gap-3">
         <div class="d-flex align-items-center">
             <label class="btn btn-outline-secondary btn-sm me-2">
@@ -68,6 +84,7 @@
         </div>
     </div>
 
+    <!-- Main Content -->
     <div id="main-area">
         <div id="viz-container"></div>
         
@@ -78,8 +95,12 @@
                     Select a node to view details.
                 </div>
             </div>
-            <div id="search-results-container" style="display:none; flex-direction:column; height: 50%; border-top: 1px solid #ddd;">
-                <div class="bg-light p-2 small font-weight-bold border-bottom">Search Results</div>
+            <!-- Removed inline style height to rely on CSS flex -->
+            <div id="search-results-container">
+                <div class="bg-light p-2 small font-weight-bold border-bottom d-flex justify-content-between align-items-center">
+                    <span>Search Results</span>
+                    <span id="result-count" class="badge bg-secondary">0</span>
+                </div>
                 <div id="search-results"></div>
             </div>
         </div>
@@ -93,7 +114,7 @@
     let svg, g, zoom;
     let width, height;
     let idToMeta = {}; // Map rid -> { sid, class_id }
-    let nodeLookup = {}; // Map rid -> [d3Node, d3Node...] (One rid can appear multiple times in Tree view)
+    let nodeLookup = {}; // Map rid -> [d3Node, d3Node...]
     let i = 0;
     const duration = 750;
 
@@ -102,13 +123,18 @@
         width = document.getElementById('viz-container').offsetWidth;
         height = document.getElementById('viz-container').offsetHeight;
 
+        // Initialize zoom behavior first and assign to global variable
+        zoom = d3.zoom()
+            .scaleExtent([0.1, 8])
+            .on("zoom", (e) => {
+                g.attr("transform", e.transform);
+            });
+
         // Setup SVG
         svg = d3.select("#viz-container").append("svg")
             .attr("width", "100%")
             .attr("height", "100%")
-            .call(d3.zoom().scaleExtent([0.1, 8]).on("zoom", (e) => {
-                g.attr("transform", e.transform);
-            }))
+            .call(zoom) // Apply zoom behavior
             .on("dblclick.zoom", null); // Disable double click zoom
         
         g = svg.append("g").attr("transform", "translate(100,0)"); // Initial offset
@@ -117,7 +143,9 @@
         window.addEventListener('resize', () => {
             width = document.getElementById('viz-container').offsetWidth;
             height = document.getElementById('viz-container').offsetHeight;
-            update(d3Root);
+            if (d3Root) {
+                update(d3Root);
+            }
         });
 
         // Event Listeners
@@ -154,73 +182,45 @@
         const count = data.rid.length;
         
         for (let idx = 0; idx < count; idx++) {
-            idToMeta[data.rid[idx]] = {
-                sid: data.sid[idx],
-                class_id: data.ilsvrc_class_id[idx]
-            };
-        }
-
-        // 2. Build Tree Structure
-        // Since input is a list of paths, we merge them into a single tree object.
-        // We assume root is usually rid=1 (Entity), but we'll handle generic starts.
-        let treeMap = new Map(); // Map<rid, NodeObject>
-        let rootNode = { name: "Root", children: [], rid: -1, isVirtual: true };
-
-        // Helper to get or create a node object
-        function getOrCreateNode(rid, parent) {
-            // In a strict Tree Visualization of a DAG, nodes appear multiple times.
-            // However, to build the data structure for D3 hierarchy, we usually build a strict tree object.
-            // But we can't share objects in d3.hierarchy if we want them to have different parents visually.
-            // So we traverse the path and build a unique tree structure.
-            return {
-                rid: rid,
-                name: idToMeta[rid] ? idToMeta[rid].sid : `ID: ${rid}`,
-                class_id: idToMeta[rid] ? idToMeta[rid].class_id : -1,
-                children: []
-            };
-        }
-
-        // Since this is a DAG presented as paths, we can construct the tree by simply 
-        // merging paths starting from the root.
-        // We need a root for the D3 tree. We'll try to find the common ancestor or use a virtual root.
-        
-        let visualRoot = { name: "World", children: [], rid: 0, class_id: -1 };
-        
-        // We use a recursive merge strategy.
-        // We cannot use a simple ID map for nodes because node 'A' might be under 'B' in one path and 'C' in another.
-        // D3 hierarchy needs distinct objects for the tree layout.
-        
-        // To optimize, we sort paths by length so we build top-down? 
-        // Actually, simply inserting every path into a tree structure works.
-        
-        for (let idx = 0; idx < count; idx++) {
-            const path = data.path_rid[idx];
-            let currentLevel = visualRoot.children;
-            
-            // Skip the first element if it matches our virtual root logic, but here we just take the path as is.
-            for (let p = 0; p < path.length; p++) {
-                const rid = path[p];
-                
-                // Check if this rid already exists at this specific level
-                let existingNode = currentLevel.find(n => n.rid === rid);
-                
-                if (!existingNode) {
-                    existingNode = {
-                        rid: rid,
-                        name: idToMeta[rid] ? idToMeta[rid].sid : `Unknown (${rid})`,
-                        class_id: idToMeta[rid] ? idToMeta[rid].class_id : -1,
-                        _children: null, // Temp storage for collapse state
-                        children: []
-                    };
-                    currentLevel.push(existingNode);
-                }
-                
-                // Move down
-                currentLevel = existingNode.children;
+            // Ensure values exist
+            if (data.rid[idx] !== undefined) {
+                idToMeta[data.rid[idx]] = {
+                    sid: data.sid && data.sid[idx] ? data.sid[idx] : `Unknown-${data.rid[idx]}`,
+                    class_id: data.ilsvrc_class_id && data.ilsvrc_class_id[idx] !== undefined ? data.ilsvrc_class_id[idx] : -1
+                };
             }
         }
 
-        // Clean up: If virtual root has only 1 child (e.g., 'Entity'), make that the root to save space
+        // 2. Build Tree Structure
+        let visualRoot = { name: "World", children: [], rid: 0, class_id: -1 };
+        
+        if (data.path_rid) {
+            for (let idx = 0; idx < data.path_rid.length; idx++) {
+                const path = data.path_rid[idx];
+                let currentLevel = visualRoot.children;
+                
+                for (let p = 0; p < path.length; p++) {
+                    const rid = path[p];
+                    
+                    let existingNode = currentLevel.find(n => n.rid === rid);
+                    
+                    if (!existingNode) {
+                        const meta = idToMeta[rid];
+                        existingNode = {
+                            rid: rid,
+                            name: meta ? meta.sid : `Unknown (${rid})`,
+                            class_id: meta ? meta.class_id : -1,
+                            _children: null,
+                            children: []
+                        };
+                        currentLevel.push(existingNode);
+                    }
+                    
+                    currentLevel = existingNode.children;
+                }
+            }
+        }
+
         if (visualRoot.children.length === 1) {
             rootData = visualRoot.children[0];
         } else {
@@ -236,6 +236,10 @@
         nodeLookup = {}; // Reset lookup
 
         d3Root = d3.hierarchy(data, d => d.children);
+        
+        // Calculate Statistics (Valid Classes / Total Nodes) using Sets for unique counting
+        calculateStats(d3Root);
+
         d3Root.x0 = height / 2;
         d3Root.y0 = 0;
 
@@ -244,7 +248,7 @@
             if (!nodeLookup[d.data.rid]) nodeLookup[d.data.rid] = [];
             nodeLookup[d.data.rid].push(d);
             
-            // Initial state: Collapse everything below depth 1 or 2
+            // Initial state: Collapse everything below depth 1
             if (d.depth > 1) {
                 d._children = d.children;
                 d.children = null;
@@ -254,17 +258,47 @@
         update(d3Root);
     }
 
+    function calculateStats(node) {
+        // Use Sets to track unique RIDs in this subtree to handle DAG nature
+        const allRids = new Set();
+        const validRids = new Set();
+
+        // Add current node
+        allRids.add(node.data.rid);
+        if (node.data.class_id >= 0) {
+            validRids.add(node.data.rid);
+        }
+
+        // Process children
+        if (node.children) {
+            node.children.forEach(child => {
+                const childStats = calculateStats(child);
+                
+                // Merge child sets into current sets
+                childStats.allRids.forEach(rid => allRids.add(rid));
+                childStats.validRids.forEach(rid => validRids.add(rid));
+            });
+        }
+
+        // Store counts
+        node.data.statValid = validRids.size;
+        node.data.statTotal = allRids.size;
+
+        // Return sets up the tree
+        return { allRids, validRids };
+    }
+
     function update(source) {
-        // Compute the new tree layout.
-        const treeLayout = d3.tree().nodeSize([20, 150]); // Node height, Level width
+        if (!source || !d3Root) return;
+
+        const treeLayout = d3.tree().nodeSize([20, 180]); // Height, Width
         const treeData = treeLayout(d3Root);
 
-        // Compute the new tree layout.
         const nodes = treeData.descendants();
         const links = treeData.links();
 
-        // Normalize for fixed-depth.
-        nodes.forEach(d => { d.y = d.depth * 180; });
+        // Normalize for fixed-depth
+        nodes.forEach(d => { d.y = d.depth * 220; }); // Increase horizontal spacing for numbers
 
         // ****************** Nodes section ***************************
 
@@ -285,12 +319,29 @@
             .attr('r', 1e-6)
             .style("fill", d => d._children ? "#555" : (d.data.class_id >= 0 ? "#0d6efd" : "#fff"));
 
-        nodeEnter.append('text')
+        // Text with stats
+        const textEnter = nodeEnter.append('text')
             .attr("dy", ".35em")
             .attr("x", d => d.children || d._children ? -13 : 13)
             .attr("text-anchor", d => d.children || d._children ? "end" : "start")
-            .text(d => d.data.name)
             .style("fill-opacity", 1e-6);
+
+        // Name
+        textEnter.append("tspan")
+            .text(d => d.data.name + " ");
+
+        // Blue Number (Valid Classes)
+        textEnter.append("tspan")
+            .style("fill", "#0d6efd")
+            .style("font-weight", "bold")
+            .style("font-size", "0.9em")
+            .text(d => d.data.statValid);
+
+        // Separator and Total (Grey)
+        textEnter.append("tspan")
+            .style("fill", "#999")
+            .style("font-size", "0.9em")
+            .text(d => " / " + d.data.statTotal);
 
         // UPDATE
         const nodeUpdate = node.merge(nodeEnter);
@@ -302,14 +353,18 @@
         nodeUpdate.select('circle.node-circle')
             .attr('r', d => d.data.class_id >= 0 ? 6 : 4.5)
             .style("fill", d => {
-                if(d.data.selected) return "#dc3545"; // Selected
-                if(d.data.class_id >= 0) return "#0d6efd"; // ImageNet Class
-                return d._children ? "#999" : "#fff"; // Internal
+                if(d.data.selected) return "#dc3545"; 
+                if(d.data.class_id >= 0) return "#0d6efd"; 
+                return d._children ? "#999" : "#fff"; 
             })
             .style("stroke", d => d.data.selected ? "#842029" : (d.data.class_id >= 0 ? "#004085" : "#999"))
             .attr('cursor', 'pointer');
 
+        // Update text position logic in case node moved from leaf to parent
         nodeUpdate.select('text')
+            .transition().duration(duration)
+            .attr("x", d => d.children || d._children ? -13 : 13)
+            .attr("text-anchor", d => d.children || d._children ? "end" : "start")
             .style("fill-opacity", 1);
 
         // EXIT
@@ -350,7 +405,6 @@
             })
             .remove();
 
-        // Stash the old positions for transition.
         nodes.forEach(d => {
             d.x0 = d.x;
             d.y0 = d.y;
@@ -392,15 +446,18 @@
                     </span>
                 </td></tr>
                 ${isClass ? `<tr><td class="text-muted">Class ID:</td><td>${d.data.class_id}</td></tr>` : ''}
-                <tr><td class="text-muted">Depth:</td><td>${d.depth}</td></tr>
+                <tr><td class="text-muted">Subtree Classes:</td><td class="text-primary fw-bold">${d.data.statValid}</td></tr>
+                <tr><td class="text-muted">Subtree Nodes:</td><td>${d.data.statTotal}</td></tr>
             </table>
         `;
     }
 
     function handleSearch() {
-        const query = document.getElementById('searchInput').value.toLowerCase();
+        const rawQuery = document.getElementById('searchInput').value.toLowerCase();
+        const query = rawQuery.trim();
         const resultsContainer = document.getElementById('search-results');
         const container = document.getElementById('search-results-container');
+        const countBadge = document.getElementById('result-count');
         
         resultsContainer.innerHTML = '';
         
@@ -409,37 +466,73 @@
             return;
         }
 
-        // Search in ID map
+        container.style.display = 'flex'; // Show container to indicate search is active
+        const queryUnderscore = query.replace(/\s+/g, '_');
         const matches = [];
+
         for (const [rid, meta] of Object.entries(idToMeta)) {
-            if (meta.sid.toLowerCase().includes(query)) {
+            if (!meta || !meta.sid) continue; // Safety check
+            
+            const sid = meta.sid.toLowerCase();
+            // Check for substring match on original or underscore-replaced query
+            if (sid.includes(query) || (query !== queryUnderscore && sid.includes(queryUnderscore))) {
                 matches.push({ rid: parseInt(rid), sid: meta.sid, cid: meta.class_id });
             }
         }
 
+        countBadge.textContent = matches.length;
+
+        // Sort matches for better relevance: 
+        matches.sort((a, b) => {
+            const aSid = a.sid.toLowerCase();
+            const bSid = b.sid.toLowerCase();
+            const q = queryUnderscore; 
+
+            const aExact = aSid === q;
+            const bExact = bSid === q;
+            if (aExact && !bExact) return -1;
+            if (!aExact && bExact) return 1;
+
+            const aStart = aSid.startsWith(q);
+            const bStart = bSid.startsWith(q);
+            if (aStart && !bStart) return -1;
+            if (!aStart && bStart) return 1;
+
+            return aSid.localeCompare(bSid);
+        });
+
         if (matches.length > 0) {
-            container.style.display = 'flex';
-            matches.slice(0, 20).forEach(m => {
+            matches.slice(0, 50).forEach(m => { // Limit to 50 items for perf
                 const div = document.createElement('div');
                 div.className = 'search-item';
                 div.innerHTML = `<strong>${m.sid}</strong> <span class="text-muted text-xs">(${m.rid})</span>`;
                 div.onclick = () => selectNode(m.rid);
                 resultsContainer.appendChild(div);
             });
+            
+            if (matches.length > 50) {
+                 const div = document.createElement('div');
+                 div.className = 'p-2 text-center text-muted small fst-italic';
+                 div.textContent = `... and ${matches.length - 50} more`;
+                 resultsContainer.appendChild(div);
+            }
         } else {
-            container.style.display = 'none';
+            const div = document.createElement('div');
+            div.className = 'p-3 text-center text-muted';
+            div.textContent = 'No matches found';
+            resultsContainer.appendChild(div);
         }
     }
 
     function selectNode(rid) {
-        // Find d3 nodes corresponding to this rid (could be multiple due to DAG)
         const targets = nodeLookup[rid];
-        if (!targets || targets.length === 0) return;
-
-        // Pick the first occurrence or handle multiple (currently picks first)
+        if (!targets || targets.length === 0) {
+            alert("Node found in metadata but not in the visualized tree.");
+            return;
+        }
         const target = targets[0];
 
-        // 1. Expand all parents recursively
+        // Expand parents
         let ancestor = target.parent;
         while(ancestor) {
             if(ancestor._children) {
@@ -449,21 +542,22 @@
             ancestor = ancestor.parent;
         }
 
-        // 2. Mark selected
-        // Clear previous selection
+        // Reset selection
         d3Root.descendants().forEach(d => d.data.selected = false);
         target.data.selected = true;
 
-        // 3. Update Visuals
         update(d3Root);
 
-        // 4. Pan to node
-        // Transform logic to center the node
-        const transform = d3.zoomIdentity
-            .translate(width / 2 - target.y, height / 2 - target.x)
-            .scale(1); // Standard scale
-        
-        svg.transition().duration(750).call(zoom.transform, transform);
+        // Zoom logic
+        if (zoom && width && height) {
+            const scale = 1.5;
+            // Calculate center accounting for scale
+            const transform = d3.zoomIdentity
+                .translate(width / 2 - target.y * scale, height / 2 - target.x * scale)
+                .scale(scale); 
+            
+            svg.transition().duration(750).call(zoom.transform, transform);
+        }
         
         showDetails(null, target);
     }
