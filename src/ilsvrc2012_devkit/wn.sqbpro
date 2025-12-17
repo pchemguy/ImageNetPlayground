@@ -6,7 +6,7 @@ ADD COLUMN &quot;sid&quot; TEXT COLLATE NOCASE
 GENERATED ALWAYS AS (metadata -&gt;&gt; '$.identifier') VIRTUAL;
 
 CREATE UNIQUE INDEX &quot;synset_sid_index&quot; ON &quot;synsets&quot; (&quot;sid&quot;);
-</sql><sql name="walk*">WITH RECURSIVE
+</sql><sql name="walk">WITH RECURSIVE
     relation_sources AS (
         SELECT DISTINCT e.source_rowid AS rid, e.source_synid AS sid
         FROM temp.edges AS e
@@ -268,4 +268,98 @@ WHERE rt.type = 'holo_part'
   AND sr.source_rowid = ss.rowid AND ss.pos = 'n'
   AND sr.target_rowid = st.rowid AND st.pos = 'n';
 
-SELECT * FROM &quot;temp&quot;.&quot;edges&quot;</sql><current_tab id="1"/></tab_sql></sqlb_project>
+SELECT * FROM &quot;temp&quot;.&quot;edges&quot;</sql><sql name="walkwn*">DELETE FROM &quot;temp&quot;.&quot;mpaths&quot;;
+
+WITH RECURSIVE
+    relation_sources AS (
+        SELECT DISTINCT e.source_rowid AS rid, e.source_synid AS sid
+        FROM temp.edges AS e
+        ORDER BY e.source_synid
+    ),
+    relation_targets AS (
+        SELECT DISTINCT e.target_rowid AS rid, e.target_synid AS sid
+        FROM temp.edges AS e
+        ORDER BY e.target_synid
+    ),
+    root_nodes AS (
+        SELECT rt.*
+        FROM relation_targets AS rt
+        LEFT JOIN relation_sources AS rs
+        ON rt.rid = rs.rid
+        WHERE rs.rid IS NULL
+          AND rt.sid like 'entity%'
+        ORDER BY rt.sid
+    ),
+    leaf_nodes AS (
+        SELECT rs.*
+        FROM relation_sources AS rs
+        LEFT JOIN relation_targets AS rt
+        ON rt.rid = rs.rid
+        WHERE rt.rid IS NULL
+        ORDER BY rs.sid
+    ),
+
+    paths_LOOP AS (
+        -- seed: every synset that participates in the hierarchy defined by edges.
+        SELECT DISTINCT
+            rn.rid AS root_rid,
+            rn.sid AS root_sid,
+            rn.rid AS curr_rid,
+
+            json_array(rn.sid) AS path_sid,
+            json_array(rn.rid) AS path_rid,
+
+            1 AS depth
+        FROM root_nodes AS rn
+
+        UNION ALL
+
+        -- recursive step: append child
+        SELECT
+            p.root_rid,
+            p.root_sid,
+            e.source_rowid AS curr_rid,
+
+            json_insert(p.path_sid, '$[#]', e.source_synid) AS path_sid,
+            json_insert(p.path_rid, '$[#]', e.source_rowid) AS path_rid,
+
+            p.depth + 1
+        FROM paths_LOOP AS p
+        JOIN temp.edges AS e
+          ON e.target_rowid = p.curr_rid
+
+        -- cycle safety
+        WHERE NOT EXISTS (
+            SELECT 1 FROM json_each(p.path_rid) WHERE value = e.source_rowid
+        )
+
+        -- optional hard stop (safety valve)
+        AND p.depth &lt; 64
+    ),
+    paths AS (
+        SELECT
+            curr_rid AS rid,
+            path_sid -&gt;&gt; -1 AS sid,
+            path_rid,
+            path_sid,
+            depth
+        FROM paths_LOOP
+        ORDER BY path_sid 
+    )
+INSERT INTO &quot;temp&quot;.&quot;mpaths&quot;
+SELECT * FROM paths ORDER BY path_sid;
+</sql><sql name="mpaths">PRAGMA temp_store = MEMORY;
+
+DROP TABLE IF EXISTS &quot;temp&quot;.&quot;mpaths&quot;;
+
+CREATE TEMP TABLE &quot;mpaths&quot; (
+    &quot;rid&quot;       INTEGER NOT NULL,
+    &quot;sid&quot;       TEXT NOT NULL COLLATE NOCASE,
+    &quot;path_rid&quot;  TEXT NOT NULL COLLATE NOCASE PRIMARY KEY,
+    &quot;path_sid&quot;  TEXT NOT NULL COLLATE NOCASE UNIQUE,
+    &quot;depth&quot;     INTEGER NOT NULL
+);
+
+CREATE INDEX &quot;mpaths_rid_index&quot; ON &quot;mpaths&quot; (&quot;rid&quot;);
+CREATE INDEX &quot;mpaths_sid_index&quot; ON &quot;mpaths&quot; (&quot;sid&quot;);
+</sql><current_tab id="6"/></tab_sql></sqlb_project>
