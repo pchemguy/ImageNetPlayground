@@ -36,7 +36,7 @@ WITH
             json_object(
                 'rid', json_group_array(rid),
                 'sid', json_group_array(sid),
-                'path_rid', json_group_array(path_rid),
+                'path_rid', json_group_array(json(path_rid)),
                 'ilsvrc_class_id', json_group_array(ilsvrc_class_id)
             ) AS data
         FROM ilsvrc_full
