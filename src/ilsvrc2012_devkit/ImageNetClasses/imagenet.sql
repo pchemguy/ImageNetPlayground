@@ -14,9 +14,31 @@ WITH
     filtered AS (
         SELECT * FROM imagenet WHERE NOT ilsvrc_class_id IS NULL
     ),
-    in_hierarchy AS (
-        SELECT DISTINCT nodes.value AS rid
+    in_nodes AS (
+        SELECT DISTINCT nodes.value AS wnrid
         FROM filtered, json_each(filtered.path_rid) AS nodes
-        ORDER BY rid
+        ORDER BY wnrid
+    ),
+    ilsvrc_full AS (
+        SELECT
+            rid,
+            sid,
+            path_rid,
+            path_sid,
+            depth,
+            coalesce(ilsvrc_class_id, -1) AS ilsvrc_class_id
+        FROM imagenet, in_nodes
+        WHERE imagenet.rid = wnrid
+        ORDER BY iif(ilsvrc_class_id > 0, ilsvrc_class_id, 1001), substr(path_sid, 1, length(path_sid) - 1)
+    ),
+    json_data AS (
+        SELECT
+            json_object(
+                'rid', json_group_array(rid),
+                'sid', json_group_array(sid),
+                'path_rid', json_group_array(path_rid),
+                'ilsvrc_class_id', json_group_array(ilsvrc_class_id)
+            ) AS data
+        FROM ilsvrc_full
     )
-SELECT * FROM in_hierarchy;
+SELECT * FROM json_data;
