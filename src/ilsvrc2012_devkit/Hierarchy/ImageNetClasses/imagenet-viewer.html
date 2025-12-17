@@ -530,36 +530,45 @@
             alert("Node found in metadata but not in the visualized tree.");
             return;
         }
-        const target = targets[0];
-
-        // Expand parents
-        let ancestor = target.parent;
-        while(ancestor) {
-            if(ancestor._children) {
-                ancestor.children = ancestor._children;
-                ancestor._children = null;
-            }
-            ancestor = ancestor.parent;
-        }
-
-        // Reset selection
+        
+        // 1. Reset previous selection
         d3Root.descendants().forEach(d => d.data.selected = false);
-        target.data.selected = true;
 
+        // 2. Process ALL instances of this RID (DAG nature)
+        // We iterate through all occurrences to highlight multiple paths
+        targets.forEach(target => {
+            // Mark as selected
+            target.data.selected = true;
+
+            // Expand ancestors for this specific instance so it becomes visible
+            let ancestor = target.parent;
+            while(ancestor) {
+                if(ancestor._children) {
+                    ancestor.children = ancestor._children;
+                    ancestor._children = null;
+                }
+                ancestor = ancestor.parent;
+            }
+        });
+
+        // 3. Update visualization to show expansions and red highlights
         update(d3Root);
 
-        // Zoom logic
+        // 4. Zoom to the first instance found
+        // Note: In a DAG, there might be multiple positions. We focus on the first one.
+        const primaryTarget = targets[0];
+
         if (zoom && width && height) {
             const scale = 1.5;
             // Calculate center accounting for scale
             const transform = d3.zoomIdentity
-                .translate(width / 2 - target.y * scale, height / 2 - target.x * scale)
+                .translate(width / 2 - primaryTarget.y * scale, height / 2 - primaryTarget.x * scale)
                 .scale(scale); 
             
             svg.transition().duration(750).call(zoom.transform, transform);
         }
         
-        showDetails(null, target);
+        showDetails(null, primaryTarget);
     }
 
     function expandAll() {
