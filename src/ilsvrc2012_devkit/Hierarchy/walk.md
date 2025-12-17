@@ -2,21 +2,15 @@
 
 `walk.sql` module defines a single SQLite query (CTE pipeline) that:
 
-1) Constructs a directed graph from `temp.edges` representing a single relation type
-   (expected: WordNet/OMW `domain_topic`), where each row is a directed edge:
+1) Constructs a directed graph from `temp.edges` representing a single relation type (expected: WordNet/OMW `domain_topic`), where each row is a directed edge:
 
    `source (child)  -->  target (parent)`
 
-2) Enumerates all simple directed paths from *roots* to *leaves* in that graph,
-   using a cycle-safe recursive CTE.
+2) Enumerates all simple directed paths from *roots* to *leaves* in that graph, using a cycle-safe recursive CTE.
 
-3) Filters the resulting path set to retain only "complete" root->leaf paths
-   (discarding intermediate partial paths produced during recursion).
+3) Filters the resulting path set to retain only "complete" root->leaf paths (discarding intermediate partial paths produced during recursion).
 
-4) Identifies and removes "shortcut" paths between the same (root, leaf) endpoints,
-   where a shorter path omits one or more intermediate nodes present in a longer path.
-   Shortcut detection here is based on unordered node containment (set inclusion),
-   not prefix matching and not order-aware subsequence matching.
+4) Identifies and removes "shortcut" paths between the same (root, leaf) endpoints, where a shorter path omits one or more intermediate nodes present in a longer path. Shortcut detection here is based on unordered node containment (set inclusion), not prefix matching and not order-aware subsequence matching.
 
 The final output is a table of pruned root->leaf paths with associated metadata.
 
@@ -26,8 +20,7 @@ This query depends on a pre-built TEMP table:
 
 `temp.edges`
 
-which is expected to be created/populated by a separate SQL module. The `edges` table
-must contain, at minimum, the following columns (names as used in this query):
+which is expected to be created/populated by a separate SQL module. The `edges` table must contain, at minimum, the following columns (names as used in this query):
 
 ```sql
 - source_rowid   INTEGER  -- edge source node ID
@@ -39,8 +32,7 @@ must contain, at minimum, the following columns (names as used in this query):
 Semantics assumed:
 - The graph is directed: source_rowid -> target_rowid.
 - Nodes are synsets (or other identifiers) in a single POS slice (commonly nouns).
-- The graph is intended to be a DAG; however, the recursion includes cycle
-  protection to handle anomalies and prevent infinite recursion.
+- The graph is intended to be a DAG; however, the recursion includes cycle protection to handle anomalies and prevent infinite recursion.
 
 # Output
 
@@ -55,6 +47,9 @@ The final SELECT returns rows from `filtered_paths` with columns:
 - path_rid   TEXT     -- JSON array of rowids along the path (root..leaf)
 - depth      INTEGER  -- number of nodes in the path array
 ```
+
+`filtered_paths` enumerates all full paths (less shortcut paths). An independent question is to define paths for each node. Basically, these data is the direct output of the recursive loop `paths_LOOP`, with `curr_id` indicating the node and the paths variables encode the path leading towards `curr_id`, including `curr_id`.
+
 # Step-by-step logic (by CTE)
 
 1) `relation_sources`
@@ -72,8 +67,7 @@ The final SELECT returns rows from `filtered_paths` with columns:
    This is used to determine which nodes have incoming edges.
 
 3) `root_nodes`
-   Identifies root nodes of the directed graph as nodes that appear as targets but
-   never as sources:
+   Identifies root nodes of the directed graph as nodes that appear as targets but never as sources:
 
    `root = target_nodes \ source_nodes`
 
@@ -83,8 +77,7 @@ WHERE relation_sources.rid IS NULL
 ```
 
    Interpretation:
- - Roots have incoming edges but no outgoing edges within this relation graph
-   when traversed in the root->leaf direction used below (target -> source).
+ - Roots have incoming edges but no outgoing edges within this relation graph when traversed in the root->leaf direction used below (target -> source).
 
 4) leaf_nodes
    Identifies leaf nodes as nodes that appear as sources but never as targets:
@@ -92,8 +85,7 @@ WHERE relation_sources.rid IS NULL
    `leaf = source_nodes \ target_nodes`
 
    Interpretation:
-     - Leaves have outgoing edges but no incoming edges within this relation graph,
-       again relative to the chosen traversal direction.
+     - Leaves have outgoing edges but no incoming edges within this relation graph, again relative to the chosen traversal direction.
 
 5) `paths_LOOP` (recursive)
    Enumerates simple paths from each root to reachable descendants.
@@ -141,8 +133,7 @@ WHERE relation_sources.rid IS NULL
 
 7) `multipath_index`
    
-   Identifies endpoint pairs (root_rid, leaf_rid) that have multiple distinct path
-   depths (i.e., multiple different paths exist between the same endpoints).
+   Identifies endpoint pairs (root_rid, leaf_rid) that have multiple distinct path depths (i.e., multiple different paths exist between the same endpoints).
 
    Process:
      - Deduplicate by (root_rid, leaf_rid, depth)
@@ -150,12 +141,10 @@ WHERE relation_sources.rid IS NULL
      - Keep those with `count(*) > 1`
 
    Rationale:
-     Shortcut pruning is only relevant when there is more than one candidate path
-     between the same endpoints.
+     Shortcut pruning is only relevant when there is more than one candidate path between the same endpoints.
 
 8) `multipaths`
-   Selects the subset of `preflitered_paths` that belongs to endpoint pairs identified
-   by `multipath_index`, and assigns a `path_id`:
+   Selects the subset of `preflitered_paths` that belongs to endpoint pairs identified by `multipath_index`, and assigns a `path_id`:
 
    `path_id := row_number() over (ORDER BY root_sid, leaf_sid, depth DESC, path_sid)`
 
@@ -164,8 +153,7 @@ WHERE relation_sources.rid IS NULL
      - `path_id` is used downstream to refer to candidate paths in dominance testing.
 
 9) `dominance_matrix`
-   Constructs all (dominant_path, shortcut_path) candidate pairs for each shared
-   endpoint pair (root, leaf), where the dominant path is strictly longer:
+   Constructs all (dominant_path, shortcut_path) candidate pairs for each shared endpoint pair (root, leaf), where the dominant path is strictly longer:
 
    `dominant.depth > shortcut.depth`
 
@@ -200,12 +188,10 @@ WHERE relation_sources.rid IS NULL
     Important semantic note:
       This is *unordered* containment:
         nodes(shortcut) ⊆ nodes(dominant)
-      Node order is intentionally ignored, and endpoint nodes are included
-      (see TODOs regarding discarding endpoints).
+      Node order is intentionally ignored, and endpoint nodes are included (see TODOs regarding discarding endpoints).
 
 11) `filtered_paths`
-    Filters the full set of `preflitered_paths`, removing those shortcut paths whose
-    node sets are fully contained in some longer path between the same endpoints.
+    Filters the full set of `preflitered_paths`, removing those shortcut paths whose node sets are fully contained in some longer path between the same endpoints.
 
     Current implementation removes paths by JSON equality on `path_rid` (See TODOs below.):
 
@@ -218,8 +204,7 @@ WHERE NOT pp.path_rid IN (
 # TODO / Future improvements
 
 1) Introduce stable path identifiers earlier
-   Currently `path_id` is introduced only in `multipaths`, which excludes single-path
-   endpoint pairs and forces later pruning to use JSON equality (in `filtered_paths`).
+   Currently `path_id` is introduced only in `multipaths`, which excludes single-path endpoint pairs and forces later pruning to use JSON equality (in `filtered_paths`).
 
    Improvement:
      - Assign a `path_id` immediately after `preflitered_paths` (i.e., once complete
@@ -232,33 +217,25 @@ WHERE NOT pp.path_rid IN (
 
 2) Fast-path pruning for length-2 "direct" paths
    Commented in the query:
-     - If there exists any longer path between the same (root, leaf), then a direct
-       length-2 path (root->leaf) is always a shortcut.
+     - If there exists any longer path between the same (root, leaf), then a direct length-2 path (root->leaf) is always a shortcut.
    Proposed approach:
-     - Remove depth=2 paths up front for any endpoint pair that has depth>2, then
-       recompute `multipath_index`.
+     - Remove depth=2 paths up front for any endpoint pair that has depth>2, then recompute `multipath_index`.
 
 3) Discard endpoints during subset testing
    The current subset test includes root and leaf nodes in containment checks.
    Depending on your intended semantics, you may want to:
-     - remove the first and last node from both arrays before testing containment
-       (i.e., compare only interior nodes),
+     - remove the first and last node from both arrays before testing containment (i.e., compare only interior nodes),
      - or keep endpoints but treat them as always-matching constraints.
 
    This end points match already, so no need to include them in subset testing (only test inner nodes).
 
-4) Replace JSON-based final pruning with ID-based pruning
-   Best practice is to avoid JSON equality in hot paths.
+4) Replace JSON-based final pruning with ID-based pruning. Best practice is to avoid JSON equality in hot paths.
 
 5) Performance optimizations and materialization strategy
    For large graphs or high path counts:
-     - Consider materializing `preflitered_paths` or `multipaths` into TEMP tables
-       and indexing (root_rid, leaf_rid, depth), and possibly an extracted
-       (root_rid, leaf_rid) endpoint index.
-     - Consider splitting `path_rid` into (root_rid, leaf_rid, depth, path_rid) and
-       storing endpoints as plain INTEGER columns to reduce JSON operations.
-     - If acceptable, enforce additional graph constraints in `temp.edges` (e.g.,
-       uniqueness, absence of self-loops) to reduce recursion branching.
+     - Consider materializing `preflitered_paths` or `multipaths` into TEMP tables and indexing (root_rid, leaf_rid, depth), and possibly an extracted (root_rid, leaf_rid) endpoint index.
+     - Consider splitting `path_rid` into (root_rid, leaf_rid, depth, path_rid) and storing endpoints as plain INTEGER columns to reduce JSON operations.
+     - If acceptable, enforce additional graph constraints in `temp.edges` (e.g., uniqueness, absence of self-loops) to reduce recursion branching.
 
 6) Correctness safeguards
    - Keep the cycle check and depth cap; they prevent pathological recursion.
@@ -266,10 +243,6 @@ WHERE NOT pp.path_rid IN (
 
 # Notes / Caveats
 
-- The notion of "root" and "leaf" is defined purely with respect to the directed
-  edge set present in `temp.edges`. If the edge set is incomplete or filtered
-  (e.g., nouns-only), roots/leaves are relative to that induced subgraph.
-- This module intentionally treats containment as unordered. If you later decide
-  that order matters (true subsequence containment), the `masked_paths` join must
-  be replaced with an order-aware constraint over JSON indices.
+- The notion of "root" and "leaf" is defined purely with respect to the directed edge set present in `temp.edges`. If the edge set is incomplete or filtered (e.g., nouns-only), roots/leaves are relative to that induced subgraph.
+- This module intentionally treats containment as unordered. If you later decide that order matters (true subsequence containment), the `masked_paths` join must be replaced with an order-aware constraint over JSON indices.
 
